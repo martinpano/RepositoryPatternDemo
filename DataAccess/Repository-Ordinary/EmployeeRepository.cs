@@ -11,6 +11,7 @@ namespace DataAccess.Repository_Ordinary
         public IEnumerable<Employee> GetAll()
         {
             return _context.Employees;
+            //return CacheDB.Employees;
         }
 
         public Employee GetById(int id)

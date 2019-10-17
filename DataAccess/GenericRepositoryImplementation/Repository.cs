@@ -8,13 +8,14 @@ namespace DataAccess.GenericRepositoryImplementation
 {
     public class Repository<T> : BaseRepository, IGenericRepository<T> where T : class
     {
-
-        public IEnumerable<T> GetAll(Func<IQueryable<T>, IQueryable<T>> func = null)
+        public IEnumerable<T> GetAll(System.Linq.Expressions.Expression<Func<T, bool>> predicate = null)
         {
             var dbSet = _context.Set<T>();
-            if(func != null)
+            if (predicate != null)
             {
-                return func(dbSet);
+                return dbSet
+               .Where(predicate)
+               .ToList();
             }
             return dbSet.ToList();
         }
@@ -36,11 +37,11 @@ namespace DataAccess.GenericRepositoryImplementation
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();
         }
-
+        
+    }
         //Instead of calling _context.SaveChanges() in every method
         //public void Save()
         //{
         //    _context.SaveChanges();
         //}
-    }
 }

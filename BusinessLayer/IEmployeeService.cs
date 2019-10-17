@@ -12,5 +12,6 @@ namespace BusinessLayer
         void CreateEmployee(Employee employee);
         void EditEmployee(Employee employee);
         void DeleteEmployee(int id);
+        IEnumerable<Employee> GetEmployeesByCompanyId(int companyId);
     }
 }

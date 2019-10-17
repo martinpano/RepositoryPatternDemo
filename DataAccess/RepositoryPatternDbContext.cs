@@ -1,12 +1,14 @@
 ﻿using DomainModels;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace DataAccess
 {
     public class RepositoryPatternDbContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -15,6 +17,25 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Company>()
+                .HasMany(x => x.Employees)
+                .WithOne(x => x.Company)
+                .HasForeignKey(x => x.CompanyId);
+
+            builder.Entity<Company>()
+                .HasData(
+                new Company()
+                {
+                    Id = 1,
+                    Name = "Iborn"
+                },
+                new Company()
+                {
+                    Id = 2,
+                    Name = "Grizli"
+                }
+                );
+
             builder.Entity<Employee>().HasData(
                 new Employee()
                 {
@@ -22,7 +43,9 @@ namespace DataAccess
                     FirstName = "Martin",
                     LastName = "Panovski",
                     Email = "martinp@iborn.net",
-                    City = "Skopje"
+                    City = "Skopje",
+                    Country = "Macedonia",
+                    CompanyId = 1
                 },
                 new Employee()
                 {
@@ -30,7 +53,9 @@ namespace DataAccess
                     FirstName = "Petre",
                     LastName = "Petrevski",
                     Email = "petrep@iborn.net",
-                    City = "Skopje"
+                    City = "Skopje",
+                    Country = "Macedonia",
+                    CompanyId = 2
                 },
                 new Employee()
                 {
@@ -38,7 +63,9 @@ namespace DataAccess
                     FirstName = "Mite",
                     LastName = "Mitevski",
                     Email = "martinp@iborn.net",
-                    City = "Ohrid"
+                    City = "Ohrid",
+                    Country = "Macedonia",
+                    CompanyId = 1
                 },
                 new Employee()
                 {
@@ -46,7 +73,9 @@ namespace DataAccess
                     FirstName = "Jovan",
                     LastName = "Jovanovski",
                     Email = "jovanj@iborn.net",
-                    City = "Strumica"
+                    City = "Strumica",
+                    Country = "Macedonia",
+                    CompanyId = 1
                 }
                 );
         }

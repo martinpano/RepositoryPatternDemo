@@ -16,5 +16,7 @@ namespace DomainModels
         public string Email { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public virtual int CompanyId { get; set; }
+        public Company Company { get; set; }
     }
 }
